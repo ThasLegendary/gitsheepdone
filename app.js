@@ -42,15 +42,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new GithubStrategy({
-  clientID: 'your app client id',
-  clientSecret: 'your app client secret',
-  callbackURL: 'http://localhost:3000/auth/callback'
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: 'http://localhost:3000/auth/github/callback'
 }, function(accessToken, refreshToken, profile, done){
   done(null, {
     accessToken: accessToken,
     profile: profile
   });
 }));
+
 passport.serializeUser(function(user, done) {
   // for the time being tou can serialize the user 
   // object {accessToken: accessToken, profile: profile }
@@ -65,14 +66,16 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-app.get('/auth', passport.authenticate('github'));
-app.get('/auth/error', auth.error);
-app.get('/auth/callback',
-  passport.authenticate('github', {failureRedirect: '/auth/error'}),
-  auth.callback
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback',
+  passport.authenticate('github', {failureRedirect: '/login'}),
+  (req, res) => {
+    res.redirect('/')
+  }
 );
 // oauth end
 
+app.get('/login', (req, res) => {res.render('login')});
 app.use('/', index);
 app.use('/users', users);
 
