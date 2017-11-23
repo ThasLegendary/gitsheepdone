@@ -10,9 +10,6 @@ var passport = require('passport');
 var GithubStrategy = require('passport-github').Strategy;
 var session = require('express-session');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-
 var app = express();
 
 // view engine setup
@@ -68,16 +65,14 @@ passport.deserializeUser(function(user, done) {
 
 app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/github/callback',
-  passport.authenticate('github', {failureRedirect: '/login'}),
+  passport.authenticate('github', {failureRedirect: '/'}),
   (req, res) => {
-    res.redirect('/')
+    res.redirect('/home')
   }
 );
 // oauth end
 
-app.get('/login', (req, res) => {res.render('login')});
-app.use('/', index);
-app.use('/users', users);
+require('./routes')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
