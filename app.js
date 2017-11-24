@@ -10,6 +10,9 @@ var passport = require('passport');
 var GithubStrategy = require('passport-github').Strategy;
 var session = require('express-session');
 
+var index = require('./routes/index');
+var home = require('./routes/home');
+
 var app = express();
 
 // view engine setup
@@ -78,6 +81,7 @@ require('./routes')(app);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
+  console.log(req);
   next(err);
 });
 

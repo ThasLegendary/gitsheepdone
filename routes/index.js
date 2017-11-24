@@ -2,9 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  console.log(req);
-  
+router.get('/', function(req, res, next) {  
 /*
   user: 
    { accessToken: 'd0cb462261b1b4e59c50ba74f4f221e9a7f8782c',
