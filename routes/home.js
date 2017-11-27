@@ -5,7 +5,7 @@ var repo = require('../services/repo.js');
 
 router.get('/', function (req, res, next) {
     repo.getUserRepos(req.user.accessToken, function(repos) {
-        res.render('home', {repos: repos});
+        res.render('home', {title: 'Home', repos: repos});
     });      
 });
 

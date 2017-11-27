@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
   route: Route { path: '/', stack: [ [Layer] ], methods: { get: true } } }
 */
 
-  res.render('index');
+  res.render('index', {title: 'The path to productivity'});
 });
 
 module.exports = router;
